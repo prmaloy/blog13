@@ -1,6 +1,10 @@
 <div>
     <h1>Awesome blog!</h1>
     <hr>
+    <form>
+        <input wire:model="search" name="search" type="text">
+    </form>
+    <hr>
     <form wire:submit.prevent='addpost'>
         <input wire:model='title' name="title" type="text" placeholder="Blog Title">
         @error('title') {{ $message }} @enderror

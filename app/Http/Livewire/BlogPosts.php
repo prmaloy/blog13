@@ -11,6 +11,7 @@ class BlogPosts extends Component
     public $title;
     public $body;
     public $categoryId = 3;
+    public $search;
 
     public $rules = [
         'title' => 'required',
@@ -31,9 +32,13 @@ class BlogPosts extends Component
 
     public function render()
     {
-        $posts = Post::latest()->get();
+        $posts = Post::latest();
+        if($this->search) {
+            $posts->where('title', 'like', '%' . $this->search . '%')
+            ->orWhere('body', 'like', '%' . $this->search . '%');
+        }
         return view('livewire.blog-posts', [
-            'posts' => $posts
+            'posts' => $posts->get()
         ]);
     }
 }
