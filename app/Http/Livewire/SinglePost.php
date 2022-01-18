@@ -4,6 +4,7 @@ namespace App\Http\Livewire;
 
 use Livewire\Component;
 use App\Models\Post;
+use App\Models\Category;
 use Illuminate\Support\Str;
 
 class SinglePost extends Component
@@ -11,6 +12,7 @@ class SinglePost extends Component
     public Post $post;
     public $title;
     public $body;
+    public $categoryId;
 
     public $rules = [
         'title' => 'required',
@@ -26,6 +28,7 @@ class SinglePost extends Component
     {
         $this->validate();
         $newpost = Post::find($postid);
+        $newpost->category_id = $this->categoryId;
         $newpost->slug = Str::slug($this->title);
         $newpost->title = $this->title;
         $newpost->body = $this->body;
@@ -36,6 +39,10 @@ class SinglePost extends Component
 
     public function render()
     {
-        return view('livewire.single-post');
+        $categories = Category::all();
+
+        return view('livewire.single-post', [
+            'categories' => $categories
+        ]);
     }
 }
